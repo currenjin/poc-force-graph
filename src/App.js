@@ -1,23 +1,101 @@
-import logo from './logo.svg';
 import './App.css';
+import { ForceGraph2D, ForceGraph3D } from 'react-force-graph';
 
-function App() {
+const exampleCategories = [
+  {
+    id: 1,
+    name: "category 1",
+  },
+  {
+    id: 2,
+    name: "category 2",
+  },
+]
+
+const examplePosts = [
+  {
+    id: 1,
+    categoryId: 1,
+    title: "post 1",
+    content: "test content",
+  },
+  {
+    id: 2,
+    categoryId: 1,
+    title: "post 2",
+    content: "test content",
+  },
+  {
+    id: 3,
+    categoryId: 1,
+    title: "post 3",
+    content: "test content",
+  },
+  {
+    id: 4,
+    categoryId: 2,
+    title: "post 4",
+    content: "test content",
+  },
+  {
+    id: 5,
+    categoryId: 2,
+    title: "post 5",
+    content: "test content",
+  },
+]
+
+
+const getNodeIdForCurrentNode = (length, postId) => {
+  return length + postId;
+};
+
+const getNodes = (categories, posts) => {
+  const nodes = [];
+
+  nodes.push(...categories.map(e => {
+    return {
+      "id": e.id,
+      "name": e.name,
+    };
+  }));
+
+  nodes.push(...posts.map(e => {
+    return {
+      "id": getNodeIdForCurrentNode(nodes.length, e.id),
+      "name": e.title,
+    };
+  }));
+
+  return nodes;
+};
+
+const getLinks = (categories, posts) => {
+  return posts.map(e => {
+    return {
+      "source": getNodeIdForCurrentNode(categories.length, e.id),
+      "target": e.categoryId,
+    };
+  });
+};
+
+const App = () => {
+
+  const nodes = getNodes(exampleCategories, examplePosts);
+  const links = getLinks(exampleCategories, examplePosts);
+
+  const gData = {
+    nodes,
+    links,
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <ForceGraph2D
+        graphData={gData}
+        backgroundColor={"black"}
+        nodeLabel={node => node.name}
+      />
     </div>
   );
 }
