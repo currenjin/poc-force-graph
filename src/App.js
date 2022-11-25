@@ -93,8 +93,9 @@ const App = () => {
     <div className="App">
       <ForceGraph2D
         graphData={gData}
-        backgroundColor={"black"}
+        backgroundColor={"white"}
         nodeLabel={node => node.name}
+        linkColor={"blue"}
       />
     </div>
   );
