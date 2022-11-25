@@ -57,6 +57,7 @@ const getNodes = (categories, posts) => {
     return {
       "id": e.id,
       "name": e.name,
+      "color": "green",
     };
   }));
 
@@ -64,6 +65,7 @@ const getNodes = (categories, posts) => {
     return {
       "id": getNodeIdForCurrentNode(nodes.length, e.id),
       "name": e.title,
+      "color": "black",
     };
   }));
 
@@ -95,7 +97,8 @@ const App = () => {
         graphData={gData}
         backgroundColor={"white"}
         nodeLabel={node => node.name}
-        linkColor={"blue"}
+        nodeColor={node => node.color}
+        linkColor={"black"}
       />
     </div>
   );
